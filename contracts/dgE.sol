@@ -1,8 +1,8 @@
 pragma solidity >=0.4.21 <0.7.0;
 
-
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
+import "./Whitelist.sol";
 
 contract dgE is ERC20 {
 
@@ -16,6 +16,8 @@ contract dgE is ERC20 {
 
     mapping (address => uint256) private _balances;
     mapping (address => mapping (address => uint256)) private _allowed;
+
+    Whitelist allowed_recipients;
 
     constructor() public {
         name = "Dezentraler gemeinschaftsEuro";
@@ -73,9 +75,13 @@ contract dgE is ERC20 {
      * @param value uint256 the amount of tokens to be transferred
      */
     function transferFrom(address from, address to, uint256 value) public returns (bool) {
+        require(allowed_recipients.isWhitelisted(to), "This is not a whitelisted recipient to send to");
         _transfer(from, to, value);
         _approve(from, msg.sender, _allowed[from][msg.sender].sub(value));
         return true;
     }
 
+    function setWhitelistAddress(address whitelistAddress) public{
+        allowed_recipients = Whitelist(whitelistAddress);
+    }
 }
