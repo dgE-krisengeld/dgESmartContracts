@@ -19,6 +19,11 @@ contract dgE is ERC20 {
 
     Whitelist allowed_recipients;
 
+    /*
+     * Events
+     */
+    event Minted(address indexed _to, uint256 indexed _num);
+
     constructor() public {
         name = "Dezentraler gemeinschaftsEuro";
         symbol = "dgE";
@@ -83,5 +88,16 @@ contract dgE is ERC20 {
 
     function setWhitelistAddress(address whitelistAddress) public{
         allowed_recipients = Whitelist(whitelistAddress);
+    }
+
+    /// @notice Allows `num` tokens to be minted and assigned to `target`
+    function mintFor(uint256 num, address target) public {
+        _balances[target] += num;
+        _totalSupply += num;
+
+        emit Minted(target, num);
+
+        require(_balances[target] >= num, "Balance should be greater or equal the amount minted");
+        assert(_totalSupply >= num);
     }
 }
