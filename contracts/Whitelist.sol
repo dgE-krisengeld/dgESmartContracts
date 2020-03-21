@@ -79,5 +79,8 @@ contract Whitelist is Ownable {
       }
     }
   }
-
+  
+  function isWhitelisted(address addr) public view returns(bool){
+    return whitelist[addr];
+  }
 }
