@@ -1,2 +1,0 @@
-# WirVsVirus
-WirVsVirus Hackathon project
