@@ -1,0 +1,28 @@
+{
+  "name": "wirvsvirus",
+  "version": "1.0.0",
+  "description": "## Smart Contract Part of dgE-Project",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lilith1410/WirVsVirus.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Lilith1410/WirVsVirus/issues"
+  },
+  "homepage": "https://github.com/Lilith1410/WirVsVirus#readme",
+  "devDependencies": {
+    "@openzeppelin/cli": "^2.7.2"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^2.5.0"
+  }
+}
