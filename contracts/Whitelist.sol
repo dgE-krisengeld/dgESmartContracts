@@ -1,4 +1,4 @@
-pragma solidity ^0.4.21;
+pragma solidity 0.6.1;
 
 
 import "./Ownable.sol";
@@ -19,7 +19,7 @@ contract Whitelist is Ownable {
    * @dev Throws if called by any account that's not whitelisted.
    */
   modifier onlyWhitelisted() {
-    require(whitelist[msg.sender]);
+    require(whitelist[msg.sender], "The sender " + msg.sender + " is not whitelisted");
     _;
   }
 
@@ -28,7 +28,7 @@ contract Whitelist is Ownable {
    * @param addr address
    * @return true if the address was added to the whitelist, false if the address was already in the whitelist
    */
-  function addAddressToWhitelist(address addr) onlyOwner public returns(bool success) {
+  function addAddressToWhitelist(address addr) public onlyOwner returns(bool success) {
     if (!whitelist[addr]) {
       whitelist[addr] = true;
       emit WhitelistedAddressAdded(addr);
@@ -42,7 +42,7 @@ contract Whitelist is Ownable {
    * @return true if at least one address was added to the whitelist,
    * false if all addresses were already in the whitelist
    */
-  function addAddressesToWhitelist(address[] addrs) onlyOwner public returns(bool success) {
+  function addAddressesToWhitelist(address[] addrs) public onlyOwner returns(bool success) {
     for (uint256 i = 0; i < addrs.length; i++) {
       if (addAddressToWhitelist(addrs[i])) {
         success = true;
@@ -56,7 +56,7 @@ contract Whitelist is Ownable {
    * @return true if the address was removed from the whitelist,
    * false if the address wasn't in the whitelist in the first place
    */
-  function removeAddressFromWhitelist(address addr) onlyOwner public returns(bool success) {
+  function removeAddressFromWhitelist(address addr) public onlyOwner returns(bool success) {
     if (whitelist[addr]) {
       whitelist[addr] = false;
       emit WhitelistedAddressRemoved(addr);
@@ -70,7 +70,7 @@ contract Whitelist is Ownable {
    * @return true if at least one address was removed from the whitelist,
    * false if all addresses weren't in the whitelist in the first place
    */
-  function removeAddressesFromWhitelist(address[] addrs) onlyOwner public returns(bool success) {
+  function removeAddressesFromWhitelist(address[] addrs) public onlyOwner returns(bool success) {
     for (uint256 i = 0; i < addrs.length; i++) {
       if (removeAddressFromWhitelist(addrs[i])) {
         success = true;

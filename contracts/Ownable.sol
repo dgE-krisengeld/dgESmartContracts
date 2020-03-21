@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity 0.6.1;
 
 
 /**
@@ -17,7 +17,7 @@ contract Ownable {
    * @dev The Ownable constructor sets the original `owner` of the contract to the sender
    * account.
    */
-  function Ownable() public {
+  constructor() public {
     owner = msg.sender;
   }
 
@@ -25,7 +25,7 @@ contract Ownable {
    * @dev Throws if called by any account other than the owner.
    */
   modifier onlyOwner() {
-    require(msg.sender == owner);
+    require(msg.sender == owner, "Sender is not Owner of Whitelist");
     _;
   }
 
@@ -34,8 +34,8 @@ contract Ownable {
    * @param newOwner The address to transfer ownership to.
    */
   function transferOwnership(address newOwner) public onlyOwner {
-    require(newOwner != address(0));
-    OwnershipTransferred(owner, newOwner);
+    require(newOwner != address(0), "New Owner must be different address than old owner");
+    emit OwnershipTransferred(owner, newOwner);
     owner = newOwner;
   }
 
