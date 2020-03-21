@@ -28,7 +28,7 @@ contract SafeMath {
     }
 }
 
-contract DigiMark is ERC20Interface, SafeMath {
+contract dgE is ERC20Interface, SafeMath {
     string public name;
     string public symbol;
     uint8 public decimals;
@@ -39,8 +39,8 @@ contract DigiMark is ERC20Interface, SafeMath {
     mapping(address => mapping(address => uint)) allowed;
 
     constructor() public {
-        name = "DigiMark";
-        symbol = "DM";
+        name = "Dezentraler gemeinschaftsEuro";
+        symbol = "dgE";
         decimals = 9;
     }
 }
