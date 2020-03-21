@@ -1,10 +1,10 @@
 pragma solidity >=0.4.21 <0.7.0;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20Mintable.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "./Whitelist.sol";
 
-contract dgE is ERC20 {
+contract dgE is ERC20Mintable, Ownable {
 
     using SafeMath for uint256;
 
@@ -12,10 +12,6 @@ contract dgE is ERC20 {
     string public symbol;
     uint8 public decimals;
 
-    uint256 private _totalSupply;
-
-    mapping (address => uint256) private _balances;
-    mapping (address => mapping (address => uint256)) private _allowed;
 
     Whitelist allowed_recipients;
 
@@ -31,44 +27,17 @@ contract dgE is ERC20 {
     }
 
     /**
-     * @dev Total number of tokens in existence
+     * @dev Moves `amount` tokens from `sender` to `recipient` using the
+     * allowance mechanism. `amount` is then deducted from the caller's
+     * allowance.
+     *
+     *
+     * @param spender spender who is allowed to spend amount. Cannot be the zero address.
+     * @param amount amount allowed to be spend.
      */
-    function totalSupply() public view returns (uint256) {
-        return _totalSupply;
-    }
-
-    /**
-     * @dev Gets the balance of the specified address.
-     * @param owner The address to query the balance of.
-     * @return An uint256 representing the amount owned by the passed address.
-     */
-    function balanceOf(address owner) public view returns (uint256) {
-        return _balances[owner];
-    }
-
-    /**
-     * @dev Function to check the amount of tokens that an owner allowed to a spender.
-     * @param owner address The address which owns the funds.
-     * @param spender address The address which will spend the funds.
-     * @return A uint256 specifying the amount of tokens still available for the spender.
-     */
-    function allowance(address owner, address spender) public view returns (uint256) {
-        return _allowed[owner][spender];
-    }
-
-    /**
-     * @dev Transfer token for a specified address
-     * @param to The address to transfer to.
-     * @param value The amount to be transferred.
-     */
-    function transfer(address to, uint256 value) public returns (bool) {
-        _transfer(msg.sender, to, value);
-        return true;
-    }
-
-    function approve(address spender, uint256 value) public returns (bool) {
-        _approve(msg.sender, spender, value);
-        return true;
+    function approve(address spender, uint256 amount) public returns (bool) {
+        require(allowed_recipients.isWhitelisted(spender), "This is not a whitelisted recipient");
+        return super.approve(spender, amount);
     }
 
     /**
@@ -81,23 +50,18 @@ contract dgE is ERC20 {
      */
     function transferFrom(address from, address to, uint256 value) public returns (bool) {
         require(allowed_recipients.isWhitelisted(to), "This is not a whitelisted recipient to send to");
-        _transfer(from, to, value);
-        _approve(from, msg.sender, _allowed[from][msg.sender].sub(value));
-        return true;
+        if(allowed_recipients.isWhitelisted(from) && to != owner){
+            revert("Whitelisted addresses are only allowed to transfer to owner.");
+        }
+        return super.transferFrom(from, to, value);
     }
 
-    function setWhitelistAddress(address whitelistAddress) public{
+    function setWhitelistAddress(address whitelistAddress) public onlyMinter{
         allowed_recipients = Whitelist(whitelistAddress);
     }
 
     /// @notice Allows `num` tokens to be minted and assigned to `target`
-    function mintFor(uint256 num, address target) public {
-        _balances[target] += num;
-        _totalSupply += num;
-
-        emit Minted(target, num);
-
-        require(_balances[target] >= num, "Balance should be greater or equal the amount minted");
-        assert(_totalSupply >= num);
+    function mintFor(address target, uint256 num) public onlyMinter {
+        mint(target, num);
     }
 }

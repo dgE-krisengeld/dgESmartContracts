@@ -21,9 +21,10 @@ contract Whitelist is Ownable {
    * @dev Throws if called by any account that's not whitelisted.
    */
   modifier onlyWhitelisted() {
-    require(whitelist[msg.sender], "The sender " + msg.sender + " is not whitelisted");
+    require(whitelist[msg.sender], "The sender is not whitelisted");
     _;
   }
+
 
   /**
    * @dev add an address to the whitelist
@@ -44,7 +45,7 @@ contract Whitelist is Ownable {
    * @return true if at least one address was added to the whitelist,
    * false if all addresses were already in the whitelist
    */
-  function addAddressesToWhitelist(address[] addrs) public onlyOwner returns(bool success) {
+  function addAddressesToWhitelist(address[] memory addrs) public onlyOwner returns(bool success) {
     for (uint256 i = 0; i < addrs.length; i++) {
       if (addAddressToWhitelist(addrs[i])) {
         success = true;
@@ -72,14 +73,14 @@ contract Whitelist is Ownable {
    * @return true if at least one address was removed from the whitelist,
    * false if all addresses weren't in the whitelist in the first place
    */
-  function removeAddressesFromWhitelist(address[] addrs) public onlyOwner returns(bool success) {
+  function removeAddressesFromWhitelist(address[] memory addrs) public onlyOwner returns(bool success) {
     for (uint256 i = 0; i < addrs.length; i++) {
       if (removeAddressFromWhitelist(addrs[i])) {
         success = true;
       }
     }
   }
-  
+
   function isWhitelisted(address addr) public view returns(bool){
     return whitelist[addr];
   }
