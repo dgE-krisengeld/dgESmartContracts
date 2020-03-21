@@ -1,34 +1,8 @@
-contract ERC20Interface {
-    function totalSupply() public view returns (uint);
-    function balanceOf(address tokenOwner) public view returns (uint balance);
-    function allowance(address tokenOwner, address spender) public view returns (uint remaining);
-    function transfer(address to, uint tokens) public returns (bool success);
-	  function approve(address spender, uint tokens)public returns (bool success);
-    function transferFrom (address from, address to, uint tokens) public returns (bool success);
-    event Transfer(address indexed from, address indexed to, uint tokens);
-    event Approval(address indexed tokenOwner, address indexed spender, uint tokens);
-}
+pragma solidity ^0.5.0;
 
-contract SafeMath {
-    function safeAdd(uint a, uint b) public pure returns (uint c) {
-        c = a + b;
-        require(c >= a);
-    }
-    function safeSub(uint a, uint b) public pure returns (uint c) {
-        require(b <= a);
-        c = a - b; }
+import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 
-    function safeMul(uint a, uint b) public pure returns (uint c) {
-        c = a * b;
-        require(a == 0 || c / a == b); }
-
-    function safeDiv(uint a, uint b) public pure returns (uint c) {
-        require(b > 0);
-        c = a / b;
-    }
-}
-
-contract dgE is ERC20Interface, SafeMath {
+contract dgE is ERC20 {
     string public name;
     string public symbol;
     uint8 public decimals;
@@ -43,4 +17,31 @@ contract dgE is ERC20Interface, SafeMath {
         symbol = "dgE";
         decimals = 9;
     }
+}
+
+contract Whitelist {
+
+  mapping(address => bool) whitelistBusinesses;
+  mapping(address => bool) whiteListCitizens;
+  private address controllerInstance;
+
+  constructor() public {
+    require(msg.sender == controllerInstance);
+
+  }
+
+  function addToBusinesses(address payable _newBusiness) {
+
+  }
+
+  function addToCirizens(address _newCitizen) {
+
+  }
+
+
+}
+
+contract ControllerInstance {+
+
+
 }
