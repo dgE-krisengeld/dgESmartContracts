@@ -4,7 +4,9 @@ pragma solidity >=0.4.21 <0.7.0;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 
-contract dgE is ERC20, SafeMath {
+contract dgE is ERC20 {
+
+    using SafeMath for uint; 
     string public name;
     string public symbol;
     uint8 public decimals;
