@@ -50,7 +50,7 @@ contract dgE is ERC20Mintable, Ownable {
      */
     function transferFrom(address from, address to, uint256 value) public returns (bool) {
         require(allowed_recipients.isWhitelisted(to), "This is not a whitelisted recipient to send to");
-        if(allowed_recipients.isWhitelisted(from) && to != owner){
+        if(allowed_recipients.isWhitelisted(from) && to != owner()){
             revert("Whitelisted addresses are only allowed to transfer to owner.");
         }
         return super.transferFrom(from, to, value);
