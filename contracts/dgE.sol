@@ -42,6 +42,22 @@ contract dgE is ERC20Mintable, Ownable {
 
     /**
      * @dev Transfer tokens from one address to another.
+     *
+     * Requirements:
+     *
+     * - `recipient` cannot be the zero address.
+     * - the caller must have a balance of at least `amount`.
+     */
+    function transfer(address recipient, uint256 amount) public returns (bool) {
+        require(allowed_recipients.isWhitelisted(to) || to == owner(), "This is not a whitelisted recipient to send to");
+        if(allowed_recipients.isWhitelisted(from) && to != owner()){
+            revert("Whitelisted addresses are only allowed to transfer to owner.");
+        }
+        return super.transfer(recipient, amount);
+    }
+
+    /**
+     * @dev Transfer tokens from one address to another.
      * Note that while this function emits an Approval event, this is not required as per the specification,
      * and other compliant implementations may not emit the event.
      * @param from address The address which you want to send tokens from
@@ -49,7 +65,7 @@ contract dgE is ERC20Mintable, Ownable {
      * @param value uint256 the amount of tokens to be transferred
      */
     function transferFrom(address from, address to, uint256 value) public returns (bool) {
-        require(allowed_recipients.isWhitelisted(to), "This is not a whitelisted recipient to send to");
+        require(allowed_recipients.isWhitelisted(to) || to == owner(), "This is not a whitelisted recipient to send to");
         if(allowed_recipients.isWhitelisted(from) && to != owner()){
             revert("Whitelisted addresses are only allowed to transfer to owner.");
         }
