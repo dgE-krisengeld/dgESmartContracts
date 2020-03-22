@@ -14,6 +14,7 @@ contract dgE is ERC20Mintable, Ownable {
 
 
     Whitelist allowed_recipients;
+    bool initialized;
 
     /*
      * Events
@@ -26,6 +27,11 @@ contract dgE is ERC20Mintable, Ownable {
         decimals = 18;
     }
 
+    modifier isInitialized() {
+        require(initialized, "Whitelist not set yet");
+        _;
+    }
+
     /**
      * @dev Moves `amount` tokens from `sender` to `recipient` using the
      * allowance mechanism. `amount` is then deducted from the caller's
@@ -35,7 +41,7 @@ contract dgE is ERC20Mintable, Ownable {
      * @param spender spender who is allowed to spend amount. Cannot be the zero address.
      * @param amount amount allowed to be spend.
      */
-    function approve(address spender, uint256 amount) public returns (bool) {
+    function approve(address spender, uint256 amount) public isInitialized returns (bool) {
         require(allowed_recipients.isWhitelisted(spender), "This is not a whitelisted recipient");
         return super.approve(spender, amount);
     }
@@ -48,9 +54,9 @@ contract dgE is ERC20Mintable, Ownable {
      * - `recipient` cannot be the zero address.
      * - the caller must have a balance of at least `amount`.
      */
-    function transfer(address recipient, uint256 amount) public returns (bool) {
-        require(allowed_recipients.isWhitelisted(to) || to == owner(), "This is not a whitelisted recipient to send to");
-        if(allowed_recipients.isWhitelisted(from) && to != owner()){
+    function transfer(address recipient, uint256 amount) public isInitialized returns (bool) {
+        require(allowed_recipients.isWhitelisted(recipient) || recipient == owner(), "This is not a whitelisted recipient to send to");
+        if(allowed_recipients.isWhitelisted(_msgSender()) && recipient != owner()){
             revert("Whitelisted addresses are only allowed to transfer to owner.");
         }
         return super.transfer(recipient, amount);
@@ -64,7 +70,7 @@ contract dgE is ERC20Mintable, Ownable {
      * @param to address The address which you want to transfer to
      * @param value uint256 the amount of tokens to be transferred
      */
-    function transferFrom(address from, address to, uint256 value) public returns (bool) {
+    function transferFrom(address from, address to, uint256 value) public isInitialized returns (bool) {
         require(allowed_recipients.isWhitelisted(to) || to == owner(), "This is not a whitelisted recipient to send to");
         if(allowed_recipients.isWhitelisted(from) && to != owner()){
             revert("Whitelisted addresses are only allowed to transfer to owner.");
@@ -74,6 +80,7 @@ contract dgE is ERC20Mintable, Ownable {
 
     function setWhitelistAddress(address whitelistAddress) public onlyMinter{
         allowed_recipients = Whitelist(whitelistAddress);
+        initialized = true;
     }
 
     /// @notice Allows `num` tokens to be minted and assigned to `target`
