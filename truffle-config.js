@@ -18,11 +18,14 @@
  *
  */
 
-// const HDWalletProvider = require('@truffle/hdwallet-provider');
-// const infuraKey = "fj4jll3k.....";
+//const HDWalletProvider = require('@truffle/hdwallet-provider');
+const infuraKey = "c60e958984cb48c5b6aeebfeee1614fd";
 //
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
+
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+//const infuraProjectId = process.env.90b201b74160455b8e538ba117684645;
 
 module.exports = {
   /**
@@ -35,49 +38,38 @@ module.exports = {
    * $ truffle test --network <network-name>
    */
 
-  networks: {
-    // Useful for testing. The `development` name is special - truffle uses it by default
-    // if it's defined here and no other network is specified at the command line.
-    // You should run a client (like ganache-cli, geth or parity) in a separate terminal
-    // tab if you use this network and you must also set the `host`, `port` and `network_id`
-    // options below to some value.
-    //
-      development: {
-      host: "127.0.0.1",     // Localhost (default: none)
-      port: 8545,            // Standard Ethereum port (default: none)
-      network_id: "*",       // Any network (default: none)
+   networks: {
+     development: {
+       protocol: 'http',
+       host: 'localhost',
+       port: 8545,
+       gas: 5000000,
+       gasPrice: 5e9,
+       networkId: '*',
      },
-
-    // Another network with more advanced options...
+     //ropsten: {
+       //provider: () => new HDWalletProvider(process.env.DEV_MNEMONIC, "https://ropsten.infura.io/v3/90b201b74160455b8e538ba117684645"),
+       //networkId: 3,       // Ropsten's id
+     //},
+     //rinkeby: {
+       //provider: () => new HDWalletProvider(process.env.DEV_MNEMONIC, "https://rinkeby.infura.io/v3/90b201b74160455b8e538ba117684645"),
+       //networkId: 4,       // Rinkeby's id
+     //},
+     //kovan: {
+       //provider: () => new HDWalletProvider(process.env.DEV_MNEMONIC, "https://kovan.infura.io/v3/90b201b74160455b8e538ba117684645"),
+       //networkId: 42,       // Kovan's id
+     //},
      goerli: {
-       network_id: 5,       // Custom network
-       gas: 4465030,           // Gas sent with each transaction (default: ~6700000)
-       gasPrice: 10000000000,  // 20 gwei (in wei) (default: 100 gwei)
-     },
-
-    // Useful for deploying to a public network.
-    // NB: It's important to wrap the provider as a function.
-     ropsten: {
-       provider: () => new HDWalletProvider(mnemonic, `https://ropsten.infura.io/v3/YOUR-PROJECT-ID`),
-       network_id: 3,       // Ropsten's id
-       gas: 5500000,        // Ropsten has a lower block limit than mainnet
-       confirmations: 2,    // # of confs to wait between deployments. (default: 0)
-       timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
-       skipDryRun: true     // Skip dry run before migrations? (default: false for public nets )
-     },
-
-    // Useful for private networks
-     private: {
-       provider: () => new HDWalletProvider(mnemonic, `https://network.io`),
-       network_id: 2111,   // This network is yours, in the cloud.
-       production: true    // Treats this network as if it was a public net. (default: false)
+       provider: () => new HDWalletProvider(process.env.DEV_MNEMONIC, "https://goerli.infura.io/v3/90b201b74160455b8e538ba117684645"),
+       networkId: 5,     // Goerli's id
+       gas: 7500000,
      }
-  },
+   },
 
   // Set default mocha options here, use special reporters etc.
-  mocha: {
+  //mocha: {
     // timeout: 100000
-  },
+  //},
 
   // Configure your compilers
   compilers: {
