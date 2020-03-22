@@ -2,7 +2,7 @@
 
 ## Smart Contract Part of dgE-Project
 This is the blockchain-based backbone of the dgE project. 
-The Smart Contracs are currently deployed on goerli testnet. 
+The Smart Contracts are currently deployed on goerli testnet. 
 
 ### Prerequisites
 This project is built with npm and truffle. 
@@ -12,22 +12,29 @@ You can check your current versions with
 and `truffle version`. 
 
 ## Getting started 
-Got to where you code on your local machine 8) 
-`git clone
- cd WirVsVirus
- npm install` 
-Now you're good to go! 
+Got to where you code on your local machine 8)
+
+ `git clone`
+ 
+ `cd WirVsVirus`
+ 
+ `npm install` 
+ 
+And you're good to go! 
 
 ## Deployment
 You can use the truffle commands to compile, migrate or deploy the smart contracts. 
-`truffle compile
- truffle migrate
- truffle deploy --network ` followed by your testnetwork of choice.  
+
+ `truffle compile`
+
+ `truffle migrate`
  
-If you're buildin on your local testnet and have already migrated once, don't forget that for the next migration the command will be `truffle migrate --reset` to clean up all your previous migrations :) 
+  `truffle deploy --network` followed by the specification of your chosen testnetwork.  
+ 
+If you're building on your local testnet and have already migrated once, don't forget that for the next migration the command will be `truffle migrate --reset` to clean up all your previous migrations :) 
 
 ## Built With
-This project was mainly built ith love. But we also used the JavaScript, Solidity and Truffle ;) 
+This project was mainly built with love. But we also used JavaScript, Solidity and Truffle ;) 
 
 ## Contributing
 If you want to contribute, feel free to raise new issues! We're here to help and to improve <3 
