@@ -4,7 +4,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20Mintable.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "./Whitelist.sol";
 
-contract dgE is ERC20Mintable, Ownable {
+contract dGE is ERC20Mintable, Ownable {
 
     using SafeMath for uint256;
 
@@ -22,8 +22,8 @@ contract dgE is ERC20Mintable, Ownable {
     event Minted(address indexed _to, uint256 indexed _num);
 
     constructor() public {
-        name = "Dezentraler gemeinschaftsEuro";
-        symbol = "dgE";
+        name = "digitaler Gutschein-Euro";
+        symbol = "dGE";
         decimals = 18;
     }
 

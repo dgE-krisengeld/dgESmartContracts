@@ -1,8 +1,10 @@
-# Smart contracts of dGE token ("digitaler Gutschein-Euro"/"digital voucher euro")
-based on the #WirVsVirusHack athon submission.
+# Smart contracts of dGE token ("digitaler Gutschein-Euro")
+based on the [#WirVsVirusHack](https://wirvsvirushackathon.org/) athon submission.
+
 This is the blockchain-based backbone of the dGE project.
 
 dGE stands for "digitaler Gutschein-Euro" which is german for "digital voucher euro".
+
 Visit our webpage: https://diggi.jetzt
 
 ### Prerequisites
