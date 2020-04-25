@@ -1,13 +1,14 @@
 # Smart contracts of dGE token ("digitaler Gutschein-Euro")
 based on the [#WirVsVirusHack](https://wirvsvirushackathon.org/) athon submission.
 
-This is the blockchain-based backbone of the dGE project.
-
 dGE stands for "digitaler Gutschein-Euro" which is german for "digital voucher euro".
 
 Visit our webpage: https://diggi.jetzt
 
-### Prerequisites
+## Smart Contract Part of dgE-Project
+This is the blockchain-based backbone of the dGE project.
+
+## Prerequisites
 This project is built with npm and truffle.
 You can check your current versions with
 `node -v`
@@ -45,7 +46,6 @@ If you want to contribute, feel free to raise new issues! We're here to help and
 ## Authors
 [Fredo](https://github.com/fredo)
 [Lilith1410](https://github.com/lilith1410)
-
 
 ## Acknowledgements
 Shoutout to all the wonderful people contributing to the WirVsVirus Hackathon! Thank you for the amazing effort the organizers put into making this impossibly spontaneous and overwhelming event happen!
