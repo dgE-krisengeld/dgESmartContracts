@@ -1,27 +1,21 @@
 {
-  "name": "wirvsvirus",
-  "version": "1.0.0",
-  "description": "## Smart Contract Part of dgE-Project",
+  "name": "dGE-smartContracts",
+  "version": "1.0.1",
+  "description": "Smart contracts of dGE token ('digitaler Gutschein-Euro')",
   "main": "truffle-config.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Lilith1410/WirVsVirus.git"
+    "url": "git+https://github.com/Dakavon/dGE-smartContracts.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Lilith1410/WirVsVirus/issues"
+    "url": "https://github.com/Dakavon/dGE-smartContracts/issues"
   },
-  "homepage": "https://github.com/Lilith1410/WirVsVirus#readme",
-  "devDependencies": {
-    "@openzeppelin/cli": "^2.7.2"
-  },
+  "homepage": "https://github.com/Dakavon/dGE-smartContracts#readme",
   "dependencies": {
     "@openzeppelin/contracts": "^2.5.0"
   }
