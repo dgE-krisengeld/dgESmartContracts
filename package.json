@@ -1,6 +1,6 @@
 {
   "name": "dGE-smartContracts",
-  "version": "1.0.1",
+  "version": "1.0.2-beta",
   "description": "Smart contracts of dGE token ('digitaler Gutschein-Euro')",
   "main": "truffle-config.js",
   "scripts": {
@@ -12,11 +12,18 @@
   },
   "author": "",
   "license": "MIT",
+  "keywords": [
+    "CORVID-19",
+    "#WirVsVirus",
+    "Gutschein",
+    "voucher",
+    "ethereum"
+  ],
   "bugs": {
     "url": "https://github.com/Dakavon/dGE-smartContracts/issues"
   },
   "homepage": "https://github.com/Dakavon/dGE-smartContracts#readme",
   "dependencies": {
-    "@openzeppelin/contracts": "^2.5.0"
+    "@openzeppelin/contracts": "^3.0.0"
   }
 }
