@@ -1,6 +1,6 @@
 {
   "name": "dGE-smartContracts",
-  "version": "1.0.2-beta",
+  "version": "1.1.0",
   "description": "Smart contracts of dGE token ('digitaler Gutschein-Euro')",
   "main": "truffle-config.js",
   "scripts": {

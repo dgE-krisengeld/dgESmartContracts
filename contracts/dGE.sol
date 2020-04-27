@@ -12,7 +12,7 @@ contract dGE is ERC20, Ownable, Pausable {
 
 
     constructor() public ERC20("digitaler Gutschein-Euro", "dGE") {
-        _pause();
+        pause();
     }
 
 
@@ -65,8 +65,10 @@ contract dGE is ERC20, Ownable, Pausable {
     }
 
 
-    function setWhitelistAddress(address whitelistAddress) public onlyOwner{
+    function setWhitelistAddress(address whitelistAddress) public onlyOwner whenPaused returns(bool) {
         accreditedRecipients = Whitelist(whitelistAddress);
+
+        return true;
     }
 
 
