@@ -3,9 +3,16 @@ pragma solidity >=0.6.0 <0.7.0;
 import "./openzeppelin/ERC20.sol";
 import "./openzeppelin/Ownable.sol";
 import "./openzeppelin/Pausable.sol";
+import "./openzeppelin/ECDSA.sol";
 import "./Whitelist.sol";
+import "./dGEpaperVouchers.sol";
 
-contract dGE is ERC20, Ownable, Pausable {
+
+/**
+ * @title dge - "digitaler Gutschein-Euro"
+ *  A blockchain-based voucher system to help citizens to help their local SME
+ */
+contract dGE is ERC20, Ownable, Pausable, dGEpaperVouchers {
     using SafeMath for uint256;
 
     Whitelist accreditedRecipients;
@@ -15,15 +22,13 @@ contract dGE is ERC20, Ownable, Pausable {
         pause();
     }
 
-
     /**
      * @dev Moves `amount` tokens from `sender` to `recipient` using the
      * allowance mechanism. `amount` is then deducted from the caller's
      * allowance.
      *
-     *
-     * @param spender spender who is allowed to spend amount. Cannot be the zero address.
-     * @param amount amount allowed to be spend.
+     * @param spender The address who is allowed to spend `amount`. Cannot be the zero address and needs to be whitelisted
+     * @param amount The amount allowed to be spend by spender
      */
     function approve(address spender, uint256 amount) public override whenNotPaused returns(bool) {
         require(accreditedRecipients.isWhitelisted(spender), "This is not a whitelisted recipient");
@@ -33,10 +38,8 @@ contract dGE is ERC20, Ownable, Pausable {
     /**
      * @dev Transfer tokens from one address to another.
      *
-     * Requirements:
-     *
-     * - `recipient` cannot be the zero address.
-     * - the caller must have a balance of at least `amount`.
+     * @param recipient The recipient cannot be the zero address and needs to be whitelisted or owner
+     * @param amount The caller must have a balance of at least 'amount'
      */
     function transfer(address recipient, uint256 amount) public override whenNotPaused returns(bool) {
         require(accreditedRecipients.isWhitelisted(recipient) || recipient == owner(), "This is neither a whitelisted recipient nor owner");
@@ -48,12 +51,12 @@ contract dGE is ERC20, Ownable, Pausable {
     }
 
     /**
-     * @dev Transfer tokens from one address to another.
-     * Note that while this function emits an Approval event, this is not required as per the specification,
-     * and other compliant implementations may not emit the event.
-     * @param from address The address which you want to send tokens from
-     * @param to address The address which you want to transfer to
-     * @param value uint256 the amount of tokens to be transferred
+     * @dev Moves `amount` tokens from `sender` to `recipient` using the
+     * allowance mechanism. `amount` is then deducted from the caller's allowance.
+     *
+     * @param from The address which you want to send tokens from
+     * @param to The address which you want to transfer to
+     * @param value The amount of tokens to be transferred
      */
     function transferFrom(address from, address to, uint256 value) public override whenNotPaused returns(bool) {
         require(accreditedRecipients.isWhitelisted(to) || to == owner(), "This is neither a whitelisted recipient nor owner");
@@ -64,17 +67,25 @@ contract dGE is ERC20, Ownable, Pausable {
         return ERC20.transferFrom(from, to, value);
     }
 
-
+    /**
+     * @dev Set contract address of deployed whitelist
+     *
+     * @param whitelistAddress The contract address of the deployed whitelist
+     */
     function setWhitelistAddress(address whitelistAddress) public onlyOwner whenPaused returns(bool) {
         accreditedRecipients = Whitelist(whitelistAddress);
 
         return true;
     }
 
-
-    /// @notice Allows `num` tokens to be minted and assigned to `target`
-    function mintToken(address target, uint256 num) public onlyOwner whenNotPaused returns(bool) {
-        ERC20._mint(target, num);
+    /**
+     * @dev Creates `amount` tokens and assigns them to `account`, increasing the total supply.
+     *
+     * @param account The address which token should assigned to
+     * @param amount The amount of tokens that should be assigned to account
+     */
+    function mintToken(address account, uint256 amount) public onlyOwner whenNotPaused returns(bool) {
+        ERC20._mint(account, amount);
 
         return true;
     }
