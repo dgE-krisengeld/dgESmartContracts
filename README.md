@@ -7,7 +7,7 @@ based on the [#WirVsVirusHack](https://wirvsvirushackathon.org/) athon submissio
 dGE stands for "digitaler Gutschein-Euro" which is german for "digital voucher euro".<br />
 Visit our webpage: https://diggi.jetzt
 
-### Smart Contract part of dgE project
+### Smart Contract part of dGE project
 This is the blockchain-based backbone of the dGE project.
 
 ### Prerequisites

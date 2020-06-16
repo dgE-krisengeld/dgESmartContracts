@@ -1,12 +1,26 @@
 const fs = require("fs");
 const EthCrypto = require("eth-crypto");
-var citizenIdentity = EthCrypto.createIdentity();
+var citizenIdentity = { };
 var message, signature;
 var vouchersData = { };
 
 //Variables that can be changed as required
-const voucherQuantity = '_AMOUNT OF PAPER VOUCHERS NEEDED_';
-const dGEcontractAddress = '_DEPLOYED CONTRACT ADDRESS_';
+const voucherQuantity = 2;
+const dGEcontractAddress = '0x86Daf9Eb37D2b4de0ae0EF2C7A2886a9ae6409e8';
+
+//Take input arguments
+//const args = require('minimist')(process.argv.slice(2));
+//citizenIdentity.privateKey = args['privateKey'];
+citizenIdentity.privateKey = '0x2ea66f56f6b9b784e1644edea2a7107b33c37df8b2058264fe40815ece3b341b';
+console.log(typeof citizenIdentity.privateKey);
+
+//Restore publicKey from privateKey
+citizenIdentity.publicKey = EthCrypto.publicKeyByPrivateKey(citizenIdentity.privateKey);
+console.log(citizenIdentity.publicKey);
+
+//Restore address from publicKey
+citizenIdentity.address = EthCrypto.publicKey.toAddress(citizenIdentity.publicKey);
+console.log(citizenIdentity.address);
 
 //Log
 console.log(`citizen address: ${citizenIdentity.address}`);
@@ -51,7 +65,7 @@ for (let i = 1; i <= voucherQuantity; i++){
 console.log(vouchersData);
 
 //Write to file in JSON format
-fs.writeFile(citizenIdentity.address+"-vouchers.json", JSON.stringify(vouchersData, null, 4), 'utf8', function(err){
+fs.writeFile(citizenIdentity.address+"-vouchers_test.json", JSON.stringify(vouchersData, null, 4), 'utf8', function(err){
   if (err) {
     console.log("An error occured while writing JSON Object to File.");
     return console.log(err);
