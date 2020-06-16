@@ -1,6 +1,7 @@
 pragma solidity ^0.6.0;
 
 // import "../GSN/Context.sol";
+import "./Ownable.sol";
 
 /**
  * @dev Contract module which allows children to implement an emergency stop
@@ -12,7 +13,7 @@ pragma solidity ^0.6.0;
  * simply including this module, only once the modifiers are put in place.
  */
 // contract Pausable is Context {
-contract Pausable {
+contract Pausable is Ownable {
     /**
      * @dev Emitted when the pause is triggered by `account`.
      */
@@ -59,7 +60,7 @@ contract Pausable {
      * @dev Triggers stopped state.
      */
     // function _pause() internal virtual whenNotPaused {
-    function pause() public virtual whenNotPaused {
+    function pause() public virtual onlyOwner whenNotPaused {
         _paused = true;
         // emit Paused(_msgSender());
         emit Paused(msg.sender);
@@ -69,7 +70,7 @@ contract Pausable {
      * @dev Returns to normal state.
      */
     // function _unpause() internal virtual whenPaused {
-    function unpause() public virtual whenPaused {
+    function unpause() public virtual onlyOwner whenPaused {
         _paused = false;
         // emit Unpaused(_msgSender());
         emit Unpaused(msg.sender);

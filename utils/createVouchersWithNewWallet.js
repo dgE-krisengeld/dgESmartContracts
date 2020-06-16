@@ -5,8 +5,8 @@ var message, signature;
 var vouchersData = { };
 
 //Variables that can be changed as required
-const voucherQuantity = 2;
-const dGEcontractAddress = '0x0';
+const voucherQuantity = '_AMOUNT OF PAPER VOUCHERS NEEDED_';
+const dGEcontractAddress = '_DEPLOYED CONTRACT ADDRESS_';
 
 //Log
 console.log(`citizen address: ${citizenIdentity.address}`);
@@ -24,10 +24,15 @@ vouchersData.vouchers = { };
 for (let i = 1; i <= voucherQuantity; i++){
   message = EthCrypto.hash.keccak256([
       { type: "address", value: citizenIdentity.address},
-      { type: "uint16", value: i},
+      { type: "uint8", value: i},
       { type: "address", value: dGEcontractAddress}
     ]);
   signature = EthCrypto.sign(citizenIdentity.privateKey, message);
+
+  hashedSignature = EthCrypto.hash.keccak256([
+      { type: "bytes", value: signature},
+      { type: "address", value: dGEcontractAddress}
+    ]);
 
   //Log iteration
   console.log(`Voucher no.: ${i}`);
@@ -38,6 +43,7 @@ for (let i = 1; i <= voucherQuantity; i++){
   vouchersData.vouchers[i] = { };
   vouchersData.vouchers[i].message = message;
   vouchersData.vouchers[i].signature = signature;
+  vouchersData.vouchers[i].hashedSignature = hashedSignature;
 }
 
 

